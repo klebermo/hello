@@ -25,6 +25,7 @@ public class FieldBoxProcessor extends AbstractElementProcessor {
 				Element fieldbox = new Element("field-box");
 				
 				for(Node child : element.getChildren()) {
+					child.setNodeLocalVariable("field", field);
 					child.setProcessable(true);
 					fieldbox.addChild(child);
 				}
