@@ -17,7 +17,7 @@ public class RadioProcessor extends AbstractElementProcessor {
 	}
 
 	@Override
-	protected ProcessorResult processElement(Arguments arguments, Element element) {
+	public ProcessorResult processElement(Arguments arguments, Element element) {
 		Field field = (Field) arguments.getLocalVariable("field");
 		
 		Element node = new Element("input");

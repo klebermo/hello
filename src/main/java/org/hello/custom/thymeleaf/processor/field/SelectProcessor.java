@@ -19,12 +19,12 @@ import antlr.collections.List;
 
 public class SelectProcessor extends AbstractElementProcessor {
 
-	protected SelectProcessor() {
+	public SelectProcessor() {
 		super("select");
 	}
 
 	@Override
-	protected ProcessorResult processElement(Arguments arguments, Element element) {
+	public ProcessorResult processElement(Arguments arguments, Element element) {
 		Locale currentLocale = Locale.getDefault();
 		ResourceBundle messages = ResourceBundle.getBundle("messages", currentLocale);
 		Field field = (Field) arguments.getLocalVariable("field");

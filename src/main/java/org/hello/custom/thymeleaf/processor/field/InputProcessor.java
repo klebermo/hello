@@ -12,12 +12,12 @@ import org.thymeleaf.processor.element.AbstractElementProcessor;
 
 public class InputProcessor extends AbstractElementProcessor {
 
-	protected InputProcessor() {
+	public InputProcessor() {
 		super("input");
 	}
 
 	@Override
-	protected ProcessorResult processElement(Arguments arguments, Element element) {
+	public ProcessorResult processElement(Arguments arguments, Element element) {
 		Field field = (Field) arguments.getLocalVariable("field");
 		
 		Element node = new Element("input");

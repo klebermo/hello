@@ -14,12 +14,12 @@ import org.thymeleaf.processor.element.AbstractElementProcessor;
 
 public class LabelProcessor extends AbstractElementProcessor {
 
-	protected LabelProcessor() {
+	public LabelProcessor() {
 		super("label");
 	}
 
 	@Override
-	protected ProcessorResult processElement(Arguments arguments, Element element) {
+	public ProcessorResult processElement(Arguments arguments, Element element) {
 		Locale currentLocale = Locale.getDefault();
 		ResourceBundle messages = ResourceBundle.getBundle("messages", currentLocale);
 		Field field = (Field) arguments.getLocalVariable("field");
