@@ -8,7 +8,7 @@ import org.thymeleaf.processor.element.AbstractElementProcessor;
 public class UlProcessor extends AbstractElementProcessor {
 
 	public UlProcessor() {
-		super("ol");
+		super("ul");
 	}
 
 	@Override
