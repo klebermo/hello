@@ -1,8 +1,11 @@
 package org.hello.custom.thymeleaf.processor.form;
 
 import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
 
 import org.thymeleaf.Arguments;
+import org.thymeleaf.dom.Attribute;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Node;
 import org.thymeleaf.processor.ProcessorResult;
@@ -16,25 +19,34 @@ public class FormProcessor extends AbstractElementProcessor {
 
 	@Override
 	public ProcessorResult processElement(Arguments arguments, Element element) {
-		String classe = element.getAttributeValue("class");
+		String classe = element.getAttributeValue("classe");
 		
-		Element form = new Element("form");
-		
+		Class<?> clazz;
 		try {
-			Class<?> clazz = Class.forName("org.hello.model." + classe.toLowerCase() + "." + classe);
-			for(Field field : clazz.getFields()) {
-				for(Node child : element.getChildren()) {
+			clazz = Class.forName("org.hello.model." + classe.toLowerCase() + "." + classe);
+		} catch (ClassNotFoundException e) {
+			clazz = null;
+		}
+		
+		element.removeAttribute("class");
+		
+		if(clazz != null) {
+			Element form = new Element("form");
+			
+			for(Field field : clazz.getDeclaredFields()) {
+				for(Node child : element.getElementChildren()) {
 					child.setNodeLocalVariable("field", field);
 					child.setProcessable(true);
 					form.addChild(child);
 				}
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			
+			for( Map.Entry<String, Attribute> entry : element.getAttributeMap().entrySet() )
+			      form.setAttribute(entry.getKey(), entry.getValue().getValue());
+			
+			element.getParent().insertBefore(element, form);
+			element.getParent().removeChild(element);
 		}
-		
-		element.getParent().insertBefore(element, form);
-		element.getParent().removeChild(element);
 		
 		return ProcessorResult.OK;
 	}
