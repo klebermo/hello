@@ -20,7 +20,8 @@ public class FieldBoxProcessor extends AbstractConditionalVisibilityElementProce
 	public boolean isVisible(Arguments arguments, Element element) {
 		String type = element.getAttributeValue("type");
 		element.removeAttribute("type");
-		Field field = (Field) arguments.getLocalVariable("field");
+		//Field field = (Field) arguments.getLocalVariable("field");
+		Field field = (Field) element.getNodeProperty("field");
 		
 		if(field == null)
 			return false;
@@ -35,7 +36,8 @@ public class FieldBoxProcessor extends AbstractConditionalVisibilityElementProce
 				Element fieldbox = new Element("field-box");
 				
 				for(Node child : element.getChildren()) {
-					child.setNodeLocalVariable("field", field);
+					//child.setNodeLocalVariable("field", field);
+					child.setNodeProperty("field", field);
 					child.setProcessable(true);
 					fieldbox.addChild(child);
 				}

@@ -1,7 +1,6 @@
 package org.hello.custom.thymeleaf.processor.form;
 
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Map;
 
 import org.thymeleaf.Arguments;
@@ -35,7 +34,8 @@ public class FormProcessor extends AbstractElementProcessor {
 			
 			for(Field field : clazz.getDeclaredFields()) {
 				for(Node child : element.getElementChildren()) {
-					child.setNodeLocalVariable("field", field);
+					//child.setNodeLocalVariable("field", field);
+					child.setNodeProperty("field", field);
 					child.setProcessable(true);
 					form.addChild(child);
 				}
