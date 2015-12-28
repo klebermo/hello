@@ -8,6 +8,11 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import org.hello.custom.annotations.form.Input;
+import org.hello.custom.annotations.form.Select;
+import org.hello.custom.annotations.type.Email;
+import org.hello.custom.annotations.type.Password;
+import org.hello.custom.annotations.type.Text;
 import org.hello.generic.persistence.Model;
 import org.hello.model.autorizacao.Autorizacao;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,22 +30,33 @@ public class Usuario extends Model implements UserDetails {
 	private String id;
 	
 	@Column
+	@Input
+	@Text
 	private String username;
 	
 	@Column
+	@Input
+	@Password
 	private String password;
 	
 	@Column
+	@Input
+	@Text
 	private String firstName;
 	
 	@Column
+	@Input
+	@Text
 	private String lastName;
 	
 	@Column
+	@Input
+	@Email
 	private String email;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	private Collection<Autorizacao> autorizacoes;
+	@Select
+	private Collection<Autorizacao> autorizacao;
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return null;
@@ -87,12 +103,12 @@ public class Usuario extends Model implements UserDetails {
 		return false;
 	}
 
-	public Collection<Autorizacao> getAutorizacoes() {
-		return autorizacoes;
+	public Collection<Autorizacao> getAutorizacao() {
+		return autorizacao;
 	}
 
-	public void setAutorizacoes(Collection<Autorizacao> autorizacoes) {
-		this.autorizacoes = autorizacoes;
+	public void setAutorizacoes(Collection<Autorizacao> autorizacao) {
+		this.autorizacao = autorizacao;
 	}
 	
 	@Override
