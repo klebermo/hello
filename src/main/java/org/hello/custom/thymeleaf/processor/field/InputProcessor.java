@@ -18,7 +18,8 @@ public class InputProcessor extends AbstractElementProcessor {
 
 	@Override
 	public ProcessorResult processElement(Arguments arguments, Element element) {
-		Field field = (Field) arguments.getLocalVariable("field");
+		//Field field = (Field) arguments.getLocalVariable("field");
+		Field field = (Field) element.getNodeProperty("field");
 		
 		Element node = new Element("input");
 		for(Annotation annotation : field.getAnnotations())
