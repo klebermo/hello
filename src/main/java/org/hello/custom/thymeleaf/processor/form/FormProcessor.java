@@ -27,26 +27,22 @@ public class FormProcessor extends AbstractElementProcessor {
 			clazz = null;
 		}
 		
-		element.removeAttribute("class");
+		element.removeAttribute("classe");
 		
-		if(clazz != null) {
-			Element form = new Element("form");
-			
-			for(Field field : clazz.getDeclaredFields()) {
-				for(Node child : element.getElementChildren()) {
-					//child.setNodeLocalVariable("field", field);
-					child.setNodeProperty("field", field);
-					child.setProcessable(true);
-					form.addChild(child);
-				}
+		Element form = new Element("form");
+		
+		for(Field field : clazz.getDeclaredFields())
+			for(Node child : element.getChildren()) {
+				child.setNodeLocalVariable("field", field);
+				child.setProcessable(true);
+				form.addChild(child.cloneNode(form, true));
 			}
-			
-			for( Map.Entry<String, Attribute> entry : element.getAttributeMap().entrySet() )
-			      form.setAttribute(entry.getKey(), entry.getValue().getValue());
-			
-			element.getParent().insertBefore(element, form);
-			element.getParent().removeChild(element);
-		}
+		
+		for( Map.Entry<String, Attribute> entry : element.getAttributeMap().entrySet() )
+			form.setAttribute(entry.getKey(), entry.getValue().getValue());
+		
+		element.getParent().insertBefore(element, form);
+		element.getParent().removeChild(element);
 		
 		return ProcessorResult.OK;
 	}
