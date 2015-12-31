@@ -22,11 +22,13 @@ public class LabelProcessor extends AbstractElementProcessor {
 	public ProcessorResult processElement(Arguments arguments, Element element) {
 		Locale currentLocale = Locale.getDefault();
 		ResourceBundle messages = ResourceBundle.getBundle("messages", currentLocale);
-		//Field field = (Field) arguments.getLocalVariable("field");
-		Field field = (Field) element.getNodeProperty("field");
+		Field field = (Field) arguments.getLocalVariable("field");
 		
 		Element node = new Element("label");
-		node.addChild(new Text(messages.getString(field.getName())));
+		String key = messages.getString(field.getName());
+		Text text = new Text(key);
+		text.setContent(key, true);
+		node.addChild(text);
 		for( Map.Entry<String, Attribute> entry : element.getAttributeMap().entrySet() )
 		      node.setAttribute(entry.getKey(), entry.getValue().getValue());
 		element.getParent().insertBefore(element, node);

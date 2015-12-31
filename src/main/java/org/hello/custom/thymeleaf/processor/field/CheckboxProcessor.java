@@ -18,8 +18,7 @@ public class CheckboxProcessor extends AbstractElementProcessor {
 
 	@Override
 	public ProcessorResult processElement(Arguments arguments, Element element) {
-		//Field field = (Field) arguments.getLocalVariable("field");
-		Field field = (Field) element.getNodeProperty("field");
+		Field field = (Field) arguments.getLocalVariable("field");
 		
 		Element node = new Element("input");
 		node.setAttribute("type", "checkbox");

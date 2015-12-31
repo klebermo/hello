@@ -26,8 +26,7 @@ public class SelectProcessor extends AbstractElementProcessor {
 	public ProcessorResult processElement(Arguments arguments, Element element) {
 		Locale currentLocale = Locale.getDefault();
 		ResourceBundle messages = ResourceBundle.getBundle("messages", currentLocale);
-		//Field field = (Field) arguments.getLocalVariable("field");
-		Field field = (Field) element.getNodeProperty("field");
+		Field field = (Field) arguments.getLocalVariable("field");
 		
 		Element node = new Element("select");
 		node.setAttribute("name", field.getName());
