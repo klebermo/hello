@@ -2,6 +2,7 @@ package org.hello.custom.thymeleaf.processor.form;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 
 import org.thymeleaf.Arguments;
@@ -19,39 +20,40 @@ public class FieldBoxProcessor extends AbstractConditionalVisibilityElementProce
 	@Override
 	public boolean isVisible(Arguments arguments, Element element) {
 		String type = element.getAttributeValue("type");
-		element.removeAttribute("type");
-		//Field field = (Field) arguments.getLocalVariable("field");
-		Field field = (Field) element.getNodeProperty("field");
 		
-		if(field == null)
-			return false;
-		else {
-			Class<? extends Annotation> clazz;
-			try {
-				clazz = (Class<? extends Annotation>) Class.forName("org.hello.custom.annotations.form." + type);
-			} catch (ClassNotFoundException e) {
-				clazz = null;
-			}
-			if(field.isAnnotationPresent(clazz)) {
-				Element fieldbox = new Element("field-box");
-				
-				for(Node child : element.getChildren()) {
-					//child.setNodeLocalVariable("field", field);
-					child.setNodeProperty("field", field);
-					child.setProcessable(true);
-					fieldbox.addChild(child);
-				}
-				
-				for( Map.Entry<String, Attribute> entry : element.getAttributeMap().entrySet() )
-				      fieldbox.setAttribute(entry.getKey(), entry.getValue().getValue());
-				
-				element.getParent().insertBefore(element, fieldbox);
-				element.getParent().removeChild(element);
-				
-				return true;
-			} else
-				return false;
+		Class<? extends Annotation> clazz;
+		try {
+			clazz = (Class<? extends Annotation>) Class.forName("org.hello.custom.annotations.form." + type);
+		} catch (ClassNotFoundException e) {
+			clazz = null;
 		}
+		
+		element.removeAttribute("type");
+		
+		Field f = (Field) arguments.getLocalVariable("field");
+		if(f.isAnnotationPresent(clazz)) {
+			Element fieldbox = new Element("field-box");
+			
+			for(Node child : element.getChildren()) {
+				child.setNodeLocalVariable("field", f);
+				child.setProcessable(true);
+				fieldbox.addChild(child);
+			}
+			
+			for( Map.Entry<String, Attribute> entry : element.getAttributeMap().entrySet() )
+			      fieldbox.setAttribute(entry.getKey(), entry.getValue().getValue());
+			
+			element.getParent().insertBefore(element, fieldbox);
+			
+			Element br = new Element("br");
+			element.getParent().insertBefore(element, br);
+			
+			element.getParent().removeChild(element);
+			
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override
