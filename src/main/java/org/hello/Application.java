@@ -41,7 +41,7 @@ public class Application extends SpringBootServletInitializer {
 		List<Class<?>> lista = new ArrayList<Class<?>>();
 		
 		ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-		Class<? extends Annotation> annotation = (Class<? extends Annotation>) Class.forName("org.hello.custom.annotation.nav." + target);
+		@SuppressWarnings("unchecked") Class<? extends Annotation> annotation = (Class<? extends Annotation>) Class.forName("org.hello.custom.annotation.nav." + target);
 		scanner.addIncludeFilter(new AnnotationTypeFilter(annotation));
 		for (BeanDefinition bd : scanner.findCandidateComponents("com.spring.loja.model")) {
 			Class<?> clazz = Class.forName(bd.getBeanClassName());
