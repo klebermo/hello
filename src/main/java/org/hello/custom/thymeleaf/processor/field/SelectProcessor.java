@@ -52,7 +52,7 @@ public class SelectProcessor extends AbstractElementProcessor {
 				String field_name = field.getName();
 				String class_name = field_name.substring(0, 1).toUpperCase() + field_name.substring(1, field_name.length());
 				Class<?> clazz = Class.forName("org.hello.model." + field_name + "." + class_name + "Dao");
-				Dao dao = (Dao) clazz.newInstance();
+				Dao<?> dao = (Dao<?>) clazz.newInstance();
 				org.hello.ApplicationContextHolder.getContext().getAutowireCapableBeanFactory().autowireBean(dao);
 				for(Object object : dao.select()) {
 					Element option = new Element("option");
